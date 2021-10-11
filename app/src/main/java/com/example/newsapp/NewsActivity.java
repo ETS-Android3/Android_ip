@@ -29,8 +29,7 @@ private String[] headlines = new String[] {"Corona Virus 19 Pandemic ,Vaccine an
         moreNewsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent();
-//                startActivity(intent);
+
                 Toast.makeText(NewsActivity.this, "Wait for More in the next morning", Toast.LENGTH_SHORT).show();
             }
         });
