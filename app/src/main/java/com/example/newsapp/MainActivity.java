@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String country = mCountryEditText.getText().toString();
-//                Log.d(TAG, country);
+                Log.d(TAG, country);
                 Intent intent = new Intent(MainActivity.this, NewsHighlightsActivity.class);
                 startActivity(intent);
                 Toast.makeText(MainActivity.this, "Explore for More", Toast.LENGTH_SHORT).show();
