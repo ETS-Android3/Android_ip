@@ -31,10 +31,6 @@ private String[] highlights = new String[] {"Use BBC News for up-to-the-minute n
         NewsHighlightsArrayAdapter adapter = new NewsHighlightsArrayAdapter(this, android.R.layout.simple_list_item_1, channels, highlights);
         mListView.setAdapter(adapter);
 
-//        Intent intent = getIntent();
-//        String country = intent.getStringExtra("country");
-//        mCountryEditText.setText("Here are all the channels in" + country);
-
         newsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
