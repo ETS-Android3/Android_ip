@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/listView"
+    android:layout_width="match_parent"
+    android:background="@color/teal_200"
+    android:layout_height="match_parent"
+    android:layout_alignParentEnd="true"
+    android:layout_alignParentRight="true">
+
+<!--    <ImageView-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:scaleType="centerCrop"-->
+<!--        app:srcCompat="@drawable/lognews" />-->
+
+    <TextView
+        android:id="@+id/more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:background="#FFCCBC"
+        android:text="Know what is going on around!" />
+
+    <TextView
+        android:id="@+id/channels"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/more"
+        android:layout_centerHorizontal="true"
+        android:background="#FFCCBC"
+        android:text="Check the channels that you are comfortable with"
+        android:textSize="15sp" />
+
+<!--    <TextView-->
+<!--        android:id="@+id/countryView"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="channels in"-->
+<!--        tools:layout_centerHorizontal="true"-->
+<!--        tools:layout_centerVertical="true" />-->
+
+    <ListView
+        android:id="@+id/channelView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/more"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:layout_alignParentRight="true" />
+
+
+    <Button
+        android:id="@+id/newsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="Button" />
+
+
+
+
+</RelativeLayout>
