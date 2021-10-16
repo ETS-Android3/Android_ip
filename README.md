@@ -8,7 +8,7 @@ News App
 10/10/2021
 
 
-##Developer Name
+##Author 
 
 Chepkemoi Rop
 
