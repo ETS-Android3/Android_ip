@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Call;
 
 public class NewsActivity extends AppCompatActivity {
 @BindView(R.id.headlines) ListView mHeadlines;
@@ -26,6 +27,8 @@ private String[] headlines = new String[] {"Corona Virus 19 Pandemic ,Vaccine an
         ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,headlines);
         mHeadlines.setAdapter(adapter);
 
+        NewsApi client = NewsClient.getClient();
+        Call<NewsSearchResponse> call = client.getNews(country,"news");
         moreNewsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
