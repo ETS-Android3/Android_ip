@@ -24,8 +24,10 @@ private String[] headlines = new String[] {"Corona Virus 19 Pandemic ,Vaccine an
         setContentView(R.layout.activity_news);
         ButterKnife.bind(this);
 
-        ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,headlines);
-        mHeadlines.setAdapter(adapter);
+//        ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,headlines);
+//        mHeadlines.setAdapter(adapter);
+        Intent intent = getIntent();
+        String country = intent.getStringExtra("country");
 
         NewsApi client = NewsClient.getClient();
         Call<NewsSearchResponse> call = client.getNews(country,"news");
