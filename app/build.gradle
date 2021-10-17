@@ -14,7 +14,9 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
+    buildTypes.each {
+        it.buildConfigField 'String', 'API_KEY', ApiKey
+    }
     testOptions {
         unitTests {
             includeAndroidResources = true
@@ -45,4 +47,6 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.0'
 
     testImplementation 'org.robolectric:robolectric:4.4'
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
 }
