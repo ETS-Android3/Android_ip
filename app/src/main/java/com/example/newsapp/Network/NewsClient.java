@@ -1,7 +1,7 @@
-package com.example.newsapp;
+package com.example.newsapp.Network;
 
 import static com.example.newsapp.BuildConfig.API_KEY;
-import static com.example.newsapp.Constants.NEWS_BASE_URL;
+import static com.example.newsapp.Models.Constants.NEWS_BASE_URL;
 
 import java.io.IOException;
 
@@ -14,7 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NewsClient {
     private static Retrofit retrofit = null;
-    public static  NewsApi getClient() {
+    public static NewsApi getClient() {
         if (retrofit == null) {
             OkHttpClient okHttpClient = new OkHttpClient.Builder()
                     .addInterceptor(new Interceptor() {
