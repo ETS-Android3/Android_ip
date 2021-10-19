@@ -13,7 +13,7 @@
             android:name=".NewsActivity"
             android:exported="true" />
         <activity
-            android:name=".NewsHighlightsActivity"
+            android:name=".NewsHeadlinesActivity"
             android:exported="true">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
