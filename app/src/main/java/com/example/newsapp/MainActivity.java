@@ -30,9 +30,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String country = mCountryEditText.getText().toString();
                 Log.d(TAG, country);
-                Intent intent = new Intent(MainActivity.this, NewsHighlightsActivity.class);
+                Intent intent = new Intent(MainActivity.this, NewsActivity.class);
+                intent.putExtra("country", country);
                 startActivity(intent);
-                Toast.makeText(MainActivity.this, "Explore for More", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Country", Toast.LENGTH_SHORT).show();
             }
         });
     }
