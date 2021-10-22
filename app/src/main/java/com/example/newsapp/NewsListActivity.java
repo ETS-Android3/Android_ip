@@ -6,21 +6,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.newsapp.Adapters.NewsArrayAdapter;
 //import com.example.newsapp.Adapters.NewsListAdapter;
 import com.example.newsapp.Adapters.NewsListAdapter;
 import com.example.newsapp.Models.Article;
 import com.example.newsapp.Models.NewsSearchResponse;
-import com.example.newsapp.Models.Source;
 import com.example.newsapp.Network.NewsApi;
 import com.example.newsapp.Network.NewsClient;
 
@@ -32,8 +25,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class NewsActivity extends AppCompatActivity {
-    private static final String TAG = NewsActivity.class.getSimpleName();
+public class NewsListActivity extends AppCompatActivity {
+    private static final String TAG = NewsListActivity.class.getSimpleName();
     @BindView(R.id.sourceTextView) TextView mSourceTextView;
     @BindView(R.id.errorTextView) TextView mErrorTextView;
     @BindView(R.id.progressBar) ProgressBar mProgressBar;
@@ -67,9 +60,9 @@ public class NewsActivity extends AppCompatActivity {
                 hideProgressBar();
                 if (response.isSuccessful()){
                   newsList = response.body().getArticles();
-                  mAdapter = new NewsListAdapter(NewsActivity.this,newsList);
+                  mAdapter = new NewsListAdapter(NewsListActivity.this,newsList);
                   mRecyclerView.setAdapter(mAdapter);
-                  RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(NewsActivity.this);
+                  RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(NewsListActivity.this);
                   mRecyclerView.setLayoutManager(layoutManager);
                   mRecyclerView.setHasFixedSize(true);
 //                    List<Article> newsList = response.body().getArticles();
