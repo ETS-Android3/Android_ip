@@ -1,6 +1,7 @@
 package com.example.newsapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -26,11 +27,12 @@ import retrofit2.Response;
 
 public class NewsActivity extends AppCompatActivity {
     private static final String TAG = NewsActivity.class.getSimpleName();
-    @BindView(R.id.listView) ListView mListView;
+    @BindView(R.id.sourceTextView) TextView mSourceTextView;
     @BindView(R.id.errorTextView) TextView mErrorTextView;
     @BindView(R.id.progressBar) ProgressBar mProgressBar;
-
-public List<Source> sources ;
+    @BindView(R.id.recyclerView) RecyclerView mRecyclerView;
+    private NewsListAdapter mAdapter;
+    public List<Article> newsList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,10 +41,11 @@ public List<Source> sources ;
 
 
         Intent intent = getIntent();
-        String source = intent.getStringExtra("country");
+        String source = intent.getStringExtra("source");
+        mSourceTextView.setText("Here news from this :" + source);
 
         NewsApi client = NewsClient.getClient();
-        Call<NewsSearchResponse> call = client.callHeadlines(source);
+        Call<NewsSearchResponse> call = client.callHeadlines(source,Constants.API_KEY);
         call.enqueue(new Callback<NewsSearchResponse>() {
             @Override
             public void onResponse(Call<NewsSearchResponse> call, Response<NewsSearchResponse> response) {
@@ -68,9 +71,9 @@ public List<Source> sources ;
 //                    for (int i = 0;i<news.length;i++){
 //                        news[i] = String.valueOf(newsList.get(i).getName());
 //                    }
-//                    for (int i = 0;i<categories.length;i++){
-//                        ULocale.Category category = newsList.get(i).getCategories().get(0);
-//                        categories[i] = category.getTitle();
+//                    for (int i = 0; i < sources.length; i++) {
+//                        Source source = newsList.get(i).getSource();
+//                        sources[i] = source.getName();
 //                    }
 //                    ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,news, categories);
 //    mHeadlines.setAdapter(adapter);
@@ -96,8 +99,8 @@ public List<Source> sources ;
                 mErrorTextView.setVisibility(View.VISIBLE);
             }
 
-            private void showNews() {
-                mListView.setVisibility(View.VISIBLE);
+            private void showNewsList() {
+                mRecyclerView.setVisibility(View.VISIBLE);
             }
 
             private void hideProgressBar() {
