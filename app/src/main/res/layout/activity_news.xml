@@ -2,7 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingBottom="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp">
 
 <!--    <ImageView-->
 <!--        android:id="@+id/imageView"-->
@@ -10,6 +14,16 @@
 <!--        android:layout_height="match_parent"-->
 <!--        android:scaleType="centerCrop"-->
 <!--        app:srcCompat="@drawable/newsimg" />-->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/headline"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="16dp"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/headline"
@@ -21,13 +35,25 @@
         android:textSize="20sp"
         android:text="Top Headlines" />
 
-
-    <ListView
-        android:id="@+id/listView"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/sourceTextView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="16dp"/>
+        android:layout_centerHorizontal="true"
+        android:layout_alignBottom="@id/headline"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:text="source"
+        android:visibility="gone"/>
+
+
+<!--    <ListView-->
+<!--        android:id="@id/listView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@id/headline"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--         />-->
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -44,13 +70,13 @@
         android:layout_margin="16dp"
         android:visibility="gone" />
 
-    <Button
-        android:id="@+id/moreNewsbutton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:background="#673AB7"
-        android:text="More News" />
+<!--    <Button-->
+<!--        android:id="@+id/moreNewsbutton"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:background="#673AB7"-->
+<!--        android:text="More News" />-->
 
 </RelativeLayout>
