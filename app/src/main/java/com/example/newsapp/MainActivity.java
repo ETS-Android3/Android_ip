@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String source = mCountryEditText.getText().toString();
                 Log.d(TAG, source);
-                Intent intent = new Intent(MainActivity.this, NewsActivity.class);
+                Intent intent = new Intent(MainActivity.this, NewsListActivity.class);
                 intent.putExtra("source", source);
                 startActivity(intent);
                 Toast.makeText(MainActivity.this, source, Toast.LENGTH_SHORT).show();
