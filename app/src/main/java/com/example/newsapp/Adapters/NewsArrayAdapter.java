@@ -5,11 +5,6 @@ import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 
-import com.example.newsapp.Models.NewsSearchResponse;
-import com.example.newsapp.NewsActivity;
-
-import java.util.List;
-
 public class NewsArrayAdapter extends ArrayAdapter {
 private Context context;
 private String[] headlines;
