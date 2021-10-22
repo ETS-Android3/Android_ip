@@ -1,7 +1,7 @@
 package com.example.newsapp.Network;
 
 import static com.example.newsapp.BuildConfig.API_KEY;
-import static com.example.newsapp.Models.Constants.NEWS_BASE_URL;
+import static com.example.newsapp.Constants.NEWS_BASE_URL;
 
 import java.io.IOException;
 

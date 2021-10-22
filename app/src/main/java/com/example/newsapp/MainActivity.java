@@ -28,12 +28,12 @@ public class MainActivity extends AppCompatActivity {
         mExploreNewsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String country = mCountryEditText.getText().toString();
-                Log.d(TAG, country);
+                String source = mCountryEditText.getText().toString();
+                Log.d(TAG, source);
                 Intent intent = new Intent(MainActivity.this, NewsActivity.class);
-                intent.putExtra("country", country);
+                intent.putExtra("source", source);
                 startActivity(intent);
-                Toast.makeText(MainActivity.this, "Country", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, source, Toast.LENGTH_SHORT).show();
             }
         });
     }
