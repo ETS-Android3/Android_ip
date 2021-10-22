@@ -1,5 +1,7 @@
 package com.example.newsapp;
 
+import com.example.newsapp.ui.MainActivity;
+
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;

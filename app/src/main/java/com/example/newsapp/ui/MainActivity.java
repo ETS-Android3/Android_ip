@@ -1,4 +1,4 @@
-package com.example.newsapp;
+package com.example.newsapp.ui;
 
 import static android.content.ContentValues.TAG;
 
@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.example.newsapp.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

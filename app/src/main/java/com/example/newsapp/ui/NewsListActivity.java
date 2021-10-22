@@ -1,4 +1,4 @@
-package com.example.newsapp;
+package com.example.newsapp.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,10 +12,12 @@ import android.widget.TextView;
 
 //import com.example.newsapp.Adapters.NewsListAdapter;
 import com.example.newsapp.Adapters.NewsListAdapter;
+import com.example.newsapp.Constants;
 import com.example.newsapp.Models.Article;
 import com.example.newsapp.Models.NewsSearchResponse;
 import com.example.newsapp.Network.NewsApi;
 import com.example.newsapp.Network.NewsClient;
+import com.example.newsapp.R;
 
 import java.util.List;
 
@@ -52,7 +54,7 @@ public class NewsListActivity extends AppCompatActivity {
         mSourceTextView.setText("Here news from this :" + source);
 
         NewsApi client = NewsClient.getClient();
-        Call<NewsSearchResponse> call = client.callHeadlines(source,Constants.API_KEY);
+        Call<NewsSearchResponse> call = client.callHeadlines(source, Constants.API_KEY);
         call.enqueue(new Callback<NewsSearchResponse>() {
             @Override
             public void onResponse(Call<NewsSearchResponse> call, Response<NewsSearchResponse> response) {
