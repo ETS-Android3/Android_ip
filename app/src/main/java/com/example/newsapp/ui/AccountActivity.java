@@ -96,6 +96,18 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
                 }
             }
         });
-
     }
+    @Override
+    public void onStart() {
+        super.onStart();
+        auth.addAuthStateListener(authStateListener);
+    }
+    @Override
+    public  void onStop() {
+        super.onStop();
+        if (authStateListener !=null){
+            auth.removeAuthStateListener(authStateListener);
+        }
+    }
+
 }
