@@ -30,7 +30,7 @@
             android:name=".ui.NewsListActivity"
             android:exported="true" />
         <activity
-            android:name=".NewsHeadlinesActivity"
+            android:name=".NewsHighlightsActivity"
             android:exported="true">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
