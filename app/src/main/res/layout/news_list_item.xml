@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:background="#ffffff"
         android:layout_height="match_parent"
-        android:padding="10dp">
+        android:padding="4dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -54,11 +54,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Description"
+            android:text="url"
             android:id="@+id/urlTextView"
             android:layout_alignBottom="@id/authorTextView"
             android:layout_alignParentRight="true"
-            android:textColor="#FF6200EE"/>
+            android:textColor="@color/purple_200"/>
     </LinearLayout>
 
 
