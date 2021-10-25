@@ -5,7 +5,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -28,6 +31,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class NewsListActivity extends AppCompatActivity {
+//    private SharedPreferences mSharedPreferences;
+//    private String mRecentSource;
     private static final String TAG = NewsListActivity.class.getSimpleName();
     @BindView(R.id.sourceTextView) TextView mSourceTextView;
     @BindView(R.id.errorTextView) TextView mErrorTextView;
@@ -49,6 +54,10 @@ public class NewsListActivity extends AppCompatActivity {
 //            }
 //        });
 
+//        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+//        mRecentSource = mSharedPreferences.getString(Constants.PREFERENCES_SOURCE_KEY,null);
+//        String source = mRecentSource;
+//        Log.d("Shared Pref Location",""+ mRecentSource);
         Intent intent = getIntent();
         String source = intent.getStringExtra("source");
         mSourceTextView.setText("Here news from this :" + source);
