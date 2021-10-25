@@ -23,17 +23,24 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class AccountActivity extends AppCompatActivity implements View.OnClickListener {
-    public static  final String TAG = AccountActivity.class.getSimpleName();
+    public static final String TAG = AccountActivity.class.getSimpleName();
 
-    @BindView(R.id.createUserButton) Button mCreateUserButton;
-    @BindView(R.id.nameEditText) EditText mNameEditText;
-    @BindView(R.id.emailEditText) EditText mEmailEditText;
-    @BindView(R.id.passwordEditText) EditText mPasswordEditText;
-    @BindView(R.id.confirmPasswordEditText) EditText confirmPasswordEditText;
-    @BindView(R.id.loginTextView) TextView mLoginTextView;
+    @BindView(R.id.createUserButton)
+    Button mCreateUserButton;
+    @BindView(R.id.nameEditText)
+    EditText mNameEditText;
+    @BindView(R.id.emailEditText)
+    EditText mEmailEditText;
+    @BindView(R.id.passwordEditText)
+    EditText mPasswordEditText;
+    @BindView(R.id.confirmPasswordEditText)
+    EditText confirmPasswordEditText;
+    @BindView(R.id.loginTextView)
+    TextView mLoginTextView;
 
     private FirebaseAuth auth;
     private FirebaseAuth.AuthStateListener authStateListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,18 +54,19 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
-    private void createAuthStateListener() {authStateListener = new FirebaseAuth.AuthStateListener() {
-        @Override
-        public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-            final FirebaseUser user = firebaseAuth.getCurrentUser();
-            if(user != null){
-                Intent intent = new Intent(AccountActivity.this, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                finish();
+    private void createAuthStateListener() {
+        authStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                final FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    Intent intent = new Intent(AccountActivity.this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                }
             }
-        }
-    };
+        };
 
     }
 
@@ -66,13 +74,13 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View view) {
 
-        if (view==mLoginTextView){
-            Intent intent = new Intent(AccountActivity.this,LoginActivity.class);
+        if (view == mLoginTextView) {
+            Intent intent = new Intent(AccountActivity.this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
         }
-        if(view == mCreateUserButton){
+        if (view == mCreateUserButton) {
             createNewUser();
         }
     }
@@ -88,26 +96,28 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()){
+                if (task.isSuccessful()) {
                     Log.d(TAG, "Authentication successful");
-                    Toast.makeText(AccountActivity.this,"Authentication is successful", Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(AccountActivity.this,"Authentication failed.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AccountActivity.this, "Authentication is successful", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(AccountActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
+
     @Override
     public void onStart() {
         super.onStart();
         auth.addAuthStateListener(authStateListener);
     }
+
     @Override
-    public  void onStop() {
+    public void onStop() {
         super.onStop();
-        if (authStateListener !=null){
+        if (authStateListener != null) {
             auth.removeAuthStateListener(authStateListener);
         }
     }
-
 }
+
