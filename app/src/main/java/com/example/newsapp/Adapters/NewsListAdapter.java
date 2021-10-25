@@ -1,6 +1,7 @@
 package com.example.newsapp.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,10 @@ import com.example.newsapp.Models.Article;
 import com.example.newsapp.Models.NewsSearchResponse;
 import com.example.newsapp.R;
 import com.example.newsapp.Models.Source;
+import com.example.newsapp.ui.NewDetailActivity;
 import com.squareup.picasso.Picasso;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -49,7 +53,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsVi
         return newsList.size();
     }
 
-    public class NewsViewHolder extends RecyclerView.ViewHolder{
+    public class NewsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         @BindView(R.id.ImageView) ImageView imageView;
         @BindView(R.id.titleTextView) TextView titleTextView;
@@ -62,6 +66,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsVi
             super(itemView);
             ButterKnife.bind(this,itemView);
             context = itemView.getContext();
+            itemView.setOnClickListener(this);
         }
         public void bindNewsList(Article newsList){
             Picasso.get().load(newsList.getUrlToImage()).into(imageView);
@@ -71,6 +76,14 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsVi
             urlTextview.setText(newsList.getUrl());
         }
 
+        @Override
+        public void onClick(View view) {
+             int itemPosition = getLayoutPosition();
+            Intent intent = new Intent(context, NewDetailActivity.class);
+            intent.putExtra("position", itemPosition);
+            intent.putExtra("newsList", Parcels.wrap(newsList));
+            context.startActivity(intent);
+        }
     }
 }
 
