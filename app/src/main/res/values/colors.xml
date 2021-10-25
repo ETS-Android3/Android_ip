@@ -6,7 +6,14 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
+    <color name="cyan_200">#18ffff</color>
+    <color name="blue_200">#40c4ff</color>
+    <color name="pink_200">#ff4081</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="orange_200">#ffab40</color>
+    <color name="lightGreen_400">#76ff03</color>
+    <color name="purple_400">#7e57c2</color>
+    <color name="lightGreen_700">#64dd17</color>
     <color name="colorPrimary">#FF5722</color>
     <color name="colorPrimaryDark">#E64A19</color>
     <color name="colorPrimaryLight">#FFCCBC</color>
