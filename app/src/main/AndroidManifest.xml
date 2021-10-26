@@ -25,7 +25,8 @@
 
         <activity
             android:name=".ui.NewDetailActivity"
-            android:exported="true" />
+            android:exported="true"/>
+
         <activity
             android:name=".ui.NewsListActivity"
             android:exported="true" >
