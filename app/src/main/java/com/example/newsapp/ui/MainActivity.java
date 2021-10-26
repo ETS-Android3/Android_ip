@@ -2,6 +2,7 @@ package com.example.newsapp.ui;
 
 import static android.content.ContentValues.TAG;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 import com.example.newsapp.Constants;
 import com.example.newsapp.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -30,21 +32,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 //    private SharedPreferences mSharedPreferences;
 //    private SharedPreferences.Editor mEditor;
-//
+    private FirebaseAuth auth;
+    private FirebaseAuth.AuthStateListener authStateListener;
 private DatabaseReference mSearchedSourceReference;
     @BindView(R.id.exploreNewsButton) Button mExploreNewsButton;
    @BindView(R.id.countryEditText) EditText mCountryEditText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
         mSearchedSourceReference = FirebaseDatabase
                 .getInstance()
         .getReference()
                 .child(Constants.FIREBASE_CHILD_SEARCHED_SOURCE);
+        auth = FirebaseAuth.getInstance();
+        authStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user !=null){
+                    getSupportActionBar().setTitle("Welcome," + user.getDisplayName() +"!");
+                } else {
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+                }
+
+            }
+        };
+
+
 
 //        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 //        mEditor = mSharedPreferences.edit();
@@ -64,6 +81,7 @@ private DatabaseReference mSearchedSourceReference;
                 startActivity(intent);
 //                Toast.makeText(MainActivity.this, source, Toast.LENGTH_SHORT).show();
             }
+
 
     }
 
@@ -94,6 +112,19 @@ private DatabaseReference mSearchedSourceReference;
 
     public void saveLocationToFirebase(String source) {
         mSearchedSourceReference.push().setValue(source);
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        auth.addAuthStateListener(authStateListener);
+    }
+    @Override
+    public void  onStop(){
+        super.onStop();
+        if (authStateListener !=null){
+            auth.removeAuthStateListener(authStateListener);
+        }
     }
 
 //    private void addToSharedPreferences(String source) {
