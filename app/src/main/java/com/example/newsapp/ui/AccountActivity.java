@@ -6,9 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +20,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
+
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,9 +42,12 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
     EditText confirmPasswordEditText;
     @BindView(R.id.loginTextView)
     TextView mLoginTextView;
+    @BindView(R.id.firebaseProgressBar) ProgressBar signInProgressBar;
+    @BindView(R.id.loadingTextView) TextView loadingSignUp;
 
     private FirebaseAuth auth;
     private FirebaseAuth.AuthStateListener authStateListener;
+    private String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +60,16 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
         auth = FirebaseAuth.getInstance();
         createAuthStateListener();
 
+    }
+
+    private void showProgressBar(){
+        signInProgressBar.setVisibility(View.VISIBLE);
+        loadingSignUp.setVisibility(View.VISIBLE);
+        loadingSignUp.setText("Sign Up process in Progress");
+    }
+    private void hideProgressBar(){
+        signInProgressBar.setVisibility(View.GONE);
+        loadingSignUp.setVisibility(View.GONE);
     }
 
     private void createAuthStateListener() {
@@ -86,18 +104,29 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void createNewUser() {
+        name = mNameEditText.getText().toString().trim();
         final String name = mNameEditText.getText().toString().trim();
         final String email = mEmailEditText.getText().toString().trim();
         String password = mPasswordEditText.getText().toString().trim();
         String confirmPassword = confirmPasswordEditText.getText().toString().trim();
 //        Toast.makeText(AccountActivity.this,"name" + name + "email "+ email,Toast.LENGTH_SHORT).show();
 
+        boolean validEmail = isValidEmail(email);
+        boolean validName = isValidName(name);
+        boolean validPassword = isValidPassword(password, confirmPassword);
+        if (!validEmail || !validName || !validPassword) return;
+
+        showProgressBar();
 
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
+
+                hideProgressBar();
+                
                 if (task.isSuccessful()) {
                     Log.d(TAG, "Authentication successful");
+                    createFirebaseUserProfile(Objects.requireNonNull(task.getResult().getUser()));
                     Toast.makeText(AccountActivity.this, "Authentication is successful", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(AccountActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
@@ -106,6 +135,48 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
         });
     }
 
+    private boolean isValidEmail(String email) {
+        boolean isGoodEmail = (email != null && Patterns.EMAIL_ADDRESS.matcher(email).matches());
+        if (!isGoodEmail){
+            mEmailEditText.setError("Please enter a valid email address");
+            return false;
+        }
+        return isGoodEmail;
+    }
+    private boolean isValidName(String name){
+        if (name.equals("")){
+            mNameEditText.setError("Please enter your name");
+            return false;
+        }
+        return true;
+    }
+    private boolean isValidPassword(String password, String confirmPassword){
+        if (password.length()<6) {
+            mPasswordEditText.setError("Please create a password containing at least 6 characters");
+            return false;
+        } else if (!password.equals(confirmPassword)){
+            mPasswordEditText.setError("Passwords do not match");
+            return false;
+        }
+        return true;
+    }
+
+    private void createFirebaseUserProfile(final FirebaseUser user){
+        UserProfileChangeRequest addProfileName = new UserProfileChangeRequest.Builder()
+                .setDisplayName(name)
+                .build();
+
+        user.updateProfile(addProfileName)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                       if (task.isSuccessful()){
+                           Log.d(TAG, Objects.requireNonNull(user.getDisplayName()));
+                           Toast.makeText(AccountActivity.this, "Name has been set",Toast.LENGTH_LONG).show();
+                       }
+                    }
+                });
+    }
     @Override
     public void onStart() {
         super.onStart();
