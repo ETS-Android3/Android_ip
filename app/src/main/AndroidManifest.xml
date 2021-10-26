@@ -28,7 +28,12 @@
             android:exported="true" />
         <activity
             android:name=".ui.NewsListActivity"
-            android:exported="true" />
+            android:exported="true" >
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.example.newsapp.ui.MainActivity">
+        </meta-data>
+        </activity>
 
         <activity
             android:name=".ui.MainActivity"
