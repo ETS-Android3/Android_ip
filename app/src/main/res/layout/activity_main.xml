@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-         />
+        app:srcCompat="@drawable/newbck" />
 
     <TextView
         android:id="@+id/textView"
@@ -32,6 +32,7 @@
         android:layout_below="@id/textView"
         android:layout_centerInParent="true"
         android:layout_marginTop="20dp"
+        android:textColor="@color/white"
         android:text="Bring You the Best of Trusted News!"
         android:textStyle="bold|italic" />
 
@@ -40,12 +41,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/countryEditText"
-        android:background="@color/colorPrimary"
+        android:background="@color/purple_400"
         android:layout_above="@+id/exploreNewsButton"
         android:layout_marginBottom="10dp"
         android:textSize="18sp"
         android:padding="5dp"
-        android:textAppearance="@color/white"
+        android:textColor="@color/white"
         android:hint="Enter Source"
         android:layout_centerHorizontal="true" />
 
