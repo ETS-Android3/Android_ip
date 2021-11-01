@@ -1,6 +1,8 @@
 package com.example.newsapp.ui;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,7 +23,10 @@ import com.example.newsapp.Models.NewsSearchResponse;
 import com.example.newsapp.Network.NewsApi;
 import com.example.newsapp.Network.NewsClient;
 import com.example.newsapp.R;
+import com.example.newsapp.util.ItemTouchHelperAdapter;
+import com.google.android.material.snackbar.Snackbar;
 
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -31,8 +36,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class NewsListActivity extends AppCompatActivity {
-//    private SharedPreferences mSharedPreferences;
-//    private String mRecentSource;
+    private SharedPreferences mSharedPreferences;
+    private String mRecentSource;
     private static final String TAG = NewsListActivity.class.getSimpleName();
     @BindView(R.id.sourceTextView) TextView mSourceTextView;
     @BindView(R.id.errorTextView) TextView mErrorTextView;
@@ -40,6 +45,8 @@ public class NewsListActivity extends AppCompatActivity {
     @BindView(R.id.recyclerView) RecyclerView mRecyclerView;
     private NewsListAdapter mAdapter;
     public List<Article> newsList;
+//    String deleteNews = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,10 +61,10 @@ public class NewsListActivity extends AppCompatActivity {
 //            }
 //        });
 
-//        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-//        mRecentSource = mSharedPreferences.getString(Constants.PREFERENCES_SOURCE_KEY,null);
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mRecentSource = mSharedPreferences.getString(Constants.PREFERENCES_SOURCE_KEY,null);
 //        String source = mRecentSource;
-//        Log.d("Shared Pref Location",""+ mRecentSource);
+        Log.d("Shared Pref Location",""+ mRecentSource);
         Intent intent = getIntent();
         String source = intent.getStringExtra("source");
         mSourceTextView.setText("Here news from this :" + source);
@@ -104,7 +111,49 @@ public class NewsListActivity extends AppCompatActivity {
                     hideProgressBar();
                     showUnsuccessfulMessage();
                 }
+                ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+                itemTouchHelper.attachToRecyclerView(mRecyclerView);
+
             }
+
+
+
+            ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.DOWN | ItemTouchHelper.UP | ItemTouchHelper.START |ItemTouchHelper.END, ItemTouchHelper.LEFT| ItemTouchHelper.RIGHT) {
+                @Override
+                public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+
+                    int fromPosition = viewHolder.getAdapterPosition();
+                    int toPosition =  target.getAdapterPosition();
+                    Collections.swap(newsList,fromPosition,toPosition);
+                    mRecyclerView.getAdapter().notifyItemMoved(fromPosition,toPosition);
+                    return false;
+                }
+
+                @Override
+                public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+
+                    int position = viewHolder.getAdapterPosition();
+                    switch (direction){
+                        case ItemTouchHelper.LEFT:
+//                            deleteNews = newsList.get(position);
+                            newsList.remove(position);
+                            mAdapter.notifyItemRemoved(position);
+//                            Snackbar.make(mRecyclerView, deleteNews, Snackbar.LENGTH_LONG)
+//                                    .setAction("Undo", new View.OnClickListener() {
+//                                        @Override
+//                                        public void onClick(View view) {
+//                                            newsList.add(position, deleteNews);
+//                                            mAdapter.notifyItemInserted(position);
+//                                        }
+//                                    }).show();
+
+                            break;
+                        case ItemTouchHelper.RIGHT:
+
+
+                    }
+                }
+            };
 
             @Override
             public void onFailure(Call<NewsSearchResponse> call, Throwable t) {
@@ -142,10 +191,3 @@ public class NewsListActivity extends AppCompatActivity {
     }
 }
 
-//  sources = (List<NewsSearchResponse>) response.body().getSource();
-//        mAdapter = new NewsListAdapter( NewsActivity.this,sources);
-//        mRecyclerView.setAdapter(mAdapter);
-//        RecyclerView.LayoutManager layoutManager =
-//        new LinearLayoutManager(NewsActivity.this);
-//        mRecyclerView.setLayoutManager(layoutManager);
-//        mRecyclerView.setHasFixedSize(true);
