@@ -11,8 +11,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 //import com.example.newsapp.Adapters.NewsListAdapter;
@@ -37,6 +41,7 @@ import retrofit2.Response;
 
 public class NewsListActivity extends AppCompatActivity {
     private SharedPreferences mSharedPreferences;
+    private SharedPreferences.Editor mEditor;
     private String mRecentSource;
     private static final String TAG = NewsListActivity.class.getSimpleName();
     @BindView(R.id.sourceTextView) TextView mSourceTextView;
@@ -64,6 +69,8 @@ public class NewsListActivity extends AppCompatActivity {
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mRecentSource = mSharedPreferences.getString(Constants.PREFERENCES_SOURCE_KEY,null);
 //        String source = mRecentSource;
+
+
         Log.d("Shared Pref Location",""+ mRecentSource);
         Intent intent = getIntent();
         String source = intent.getStringExtra("source");
@@ -76,13 +83,13 @@ public class NewsListActivity extends AppCompatActivity {
             public void onResponse(Call<NewsSearchResponse> call, Response<NewsSearchResponse> response) {
 
                 hideProgressBar();
-                if (response.isSuccessful()){
-                  newsList = response.body().getArticles();
-                  mAdapter = new NewsListAdapter(NewsListActivity.this,newsList);
-                  mRecyclerView.setAdapter(mAdapter);
-                  RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(NewsListActivity.this);
-                  mRecyclerView.setLayoutManager(layoutManager);
-                  mRecyclerView.setHasFixedSize(true);
+                if (response.isSuccessful()) {
+                    newsList = response.body().getArticles();
+                    mAdapter = new NewsListAdapter(NewsListActivity.this, newsList);
+                    mRecyclerView.setAdapter(mAdapter);
+                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(NewsListActivity.this);
+                    mRecyclerView.setLayoutManager(layoutManager);
+                    mRecyclerView.setHasFixedSize(true);
 //                    List<Article> newsList = response.body().getArticles();
 //                    String[] headlines = new String[newsList.size()];
 //                    Log.d(TAG,"response is" + headlines.length);
@@ -107,25 +114,30 @@ public class NewsListActivity extends AppCompatActivity {
 
                     showNewsList();
 
-                }else {
+                } else {
                     hideProgressBar();
                     showUnsuccessfulMessage();
                 }
+
                 ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
                 itemTouchHelper.attachToRecyclerView(mRecyclerView);
 
             }
 
 
+            private void addToSharedPreferences(String location) {
+                mEditor.putString(Constants.PREFERENCES_SOURCE_KEY, source).apply();
+            }
 
-            ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.DOWN | ItemTouchHelper.UP | ItemTouchHelper.START |ItemTouchHelper.END, ItemTouchHelper.LEFT| ItemTouchHelper.RIGHT) {
+
+            ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.DOWN | ItemTouchHelper.UP | ItemTouchHelper.START | ItemTouchHelper.END, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
                 @Override
                 public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
 
                     int fromPosition = viewHolder.getAdapterPosition();
-                    int toPosition =  target.getAdapterPosition();
-                    Collections.swap(newsList,fromPosition,toPosition);
-                    mRecyclerView.getAdapter().notifyItemMoved(fromPosition,toPosition);
+                    int toPosition = target.getAdapterPosition();
+                    Collections.swap(newsList, fromPosition, toPosition);
+                    mRecyclerView.getAdapter().notifyItemMoved(fromPosition, toPosition);
                     return false;
                 }
 
@@ -133,7 +145,7 @@ public class NewsListActivity extends AppCompatActivity {
                 public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
 
                     int position = viewHolder.getAdapterPosition();
-                    switch (direction){
+                    switch (direction) {
                         case ItemTouchHelper.LEFT:
 //                            deleteNews = newsList.get(position);
                             newsList.remove(position);
@@ -154,6 +166,7 @@ public class NewsListActivity extends AppCompatActivity {
                     }
                 }
             };
+
 
             @Override
             public void onFailure(Call<NewsSearchResponse> call, Throwable t) {
@@ -181,6 +194,7 @@ public class NewsListActivity extends AppCompatActivity {
         });
 
 
+
 //        moreNewsButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -189,5 +203,82 @@ public class NewsListActivity extends AppCompatActivity {
 //            }
 //        });
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_search, menu);
+        ButterKnife.bind(this);
+
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mEditor = mSharedPreferences.edit();
+
+        MenuItem menuItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) menuItem.getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String source) {
+                addToSharedPreferences(source);
+                NewsApi client = NewsClient.getClient();
+                Call<NewsSearchResponse> call = client.callHeadlines(source, Constants.API_KEY);
+                call.enqueue(new Callback<NewsSearchResponse>() {
+                    @Override
+                    public void onResponse(Call<NewsSearchResponse> call, Response<NewsSearchResponse> response) {
+
+                        hideProgressBar();
+
+                        if (response.isSuccessful()) {
+                            newsList = response.body().getArticles();
+                            mAdapter = new NewsListAdapter(NewsListActivity.this, newsList);
+                            mRecyclerView.setAdapter(mAdapter);
+                            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(NewsListActivity.this);
+                            mRecyclerView.setLayoutManager(layoutManager);
+                            mRecyclerView.setHasFixedSize(true);
+
+                            showNewslist();
+                        } else {
+                            showUnsuccessfulMessage();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<NewsSearchResponse> call, Throwable t) {
+                        Log.e(TAG, "onFailure: ",t );
+                        hideProgressBar();
+                        showFailureMessage();
+                    }
+
+                });
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String location) {
+                return false;
+            }
+        });
+        return true;
+    }
+          private void addToSharedPreferences(String source) {
+                 mEditor.putString(Constants.PREFERENCES_SOURCE_KEY, source).apply();
+                          }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
+    }
+      private void showFailureMessage() {
+            mErrorTextView.setText("Something went wrong. Please check your Internet connection and try again later");
+            mErrorTextView.setVisibility(View.VISIBLE);
 }
 
+        private void showUnsuccessfulMessage() {
+                mErrorTextView.setText("Something went wrong. Please check your Internet connection and try again later");
+            }
+              private void showNewslist() {
+                    mRecyclerView.setVisibility(View.VISIBLE);
+        }
+        private void hideProgressBar(){
+        mProgressBar.setVisibility(View.GONE);
+        }
+}
