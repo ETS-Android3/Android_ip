@@ -71,11 +71,13 @@ dependencies {
     implementation 'org.parceler:parceler-api:1.1.12'
     annotationProcessor 'org.parceler:parceler:1.1.12'
 
-    implementation platform('com.google.firebase:firebase-bom:28.4.2')
-
-    implementation 'com.google.firebase:firebase-analytics'
-    //realtime database
+//    implementation platform('com.google.firebase:firebase-bom:28.4.2')
+//firebase
     implementation platform('com.google.firebase:firebase-bom:26.4.0')
+    implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-database'
+
+    implementation 'com.google.firebase:firebase-database'
+    implementation 'com.firebaseui:firebase-ui-database:7.1.1'
 
 }

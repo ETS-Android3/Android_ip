@@ -12,34 +12,33 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NewsApp">
         <activity
+            android:name=".ui.SavedNewsListActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.LoginActivity"
             android:exported="true">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".ui.AccountActivity"
-            android:exported="true"/>
-
+            android:exported="true" />
         <activity
             android:name=".ui.NewDetailActivity"
-            android:exported="true"/>
-
+            android:exported="true" />
         <activity
             android:name=".ui.NewsListActivity"
-            android:exported="true" >
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value="com.example.newsapp.ui.MainActivity">
-        </meta-data>
+            android:exported="true">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.newsapp.ui.MainActivity"></meta-data>
         </activity>
-
         <activity
             android:name=".ui.MainActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true"></activity>
     </application>
 
 </manifest>

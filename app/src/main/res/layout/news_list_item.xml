@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:background="@color/colorDivider"
+    android:foreground="?attr/selectableItemBackground">
 
     <ImageView
         android:id="@+id/ImageView"
