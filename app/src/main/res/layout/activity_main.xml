@@ -51,11 +51,25 @@
         android:layout_centerHorizontal="true" />
 
     <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=" Saved News"
+        android:id="@+id/savedNewsButton"
+        android:background="@color/colorAccent"
+        android:textColor="@color/colorTextIcons"
+        android:visibility="visible"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
+
+    <Button
         android:id="@+id/exploreNewsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:visibility="visible"
         android:layout_centerHorizontal="true"
+        android:layout_above="@+id/savedNewsButton"
+        android:layout_marginBottom="10dp"
         android:textSize="20sp"
         android:background="#B6B6B6"
         android:textAppearance="@color/black"

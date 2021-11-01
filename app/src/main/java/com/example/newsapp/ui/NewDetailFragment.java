@@ -14,10 +14,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.newsapp.Constants;
 import com.example.newsapp.Models.Article;
 import com.example.newsapp.Models.Source;
 import com.example.newsapp.R;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
@@ -38,6 +42,7 @@ public class NewDetailFragment extends Fragment implements View.OnClickListener{
 @BindView(R.id.contentTextView) TextView mContentTextView;
 @BindView(R.id.newsButton) TextView mNewsButton;
 @BindView(R.id.nameTextView) TextView mNameTextView;
+
 
 private Article mNewsList;
 
@@ -77,6 +82,8 @@ public static NewDetailFragment newInstance(Article newsList){
         mAuthorTextView.setText(mNewsList.getAuthor());
         mUrlTextView.setText(mNewsList.getUrl());
         mContentTextView.setText(mNewsList.getContent());
+
+        mNewsButton.setOnClickListener(this);
         return view;
     }
 
@@ -88,5 +95,12 @@ public static NewDetailFragment newInstance(Article newsList){
             startActivity(webIntent);
         }
 
+        if (view == mNewsButton) {
+            DatabaseReference newsRef = FirebaseDatabase
+                    .getInstance()
+                    .getReference(Constants.FIREBASE_CHILD_SEARCHED_SOURCE);
+            newsRef.push().setValue(mNewsList);
+            Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
+        }
     }
 }
