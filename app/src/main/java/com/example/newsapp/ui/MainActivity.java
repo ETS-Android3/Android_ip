@@ -22,31 +22,57 @@ import com.example.newsapp.Constants;
 import com.example.newsapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
-//    private SharedPreferences mSharedPreferences;
-//    private SharedPreferences.Editor mEditor;
+    private SharedPreferences mSharedPreferences;
+    private SharedPreferences.Editor mEditor;
     private FirebaseAuth auth;
     private FirebaseAuth.AuthStateListener authStateListener;
 private DatabaseReference mSearchedSourceReference;
+    private ValueEventListener mSearchedSourceReferenceListener;
+
     @BindView(R.id.exploreNewsButton) Button mExploreNewsButton;
    @BindView(R.id.countryEditText) EditText mCountryEditText;
+   @BindView(R.id.savedNewsButton) Button mSavedNewsButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mSearchedSourceReference = FirebaseDatabase
+                .getInstance()
+                .getReference()
+                .child(Constants.FIREBASE_CHILD_SEARCHED_SOURCE);
+
+
+        mSearchedSourceReference.addValueEventListener(new ValueEventListener() { //attach listener
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) { //something changed!
+                for (DataSnapshot locationSnapshot : dataSnapshot.getChildren()) {
+                    String location = locationSnapshot.getValue().toString();
+                    Log.d("Locations updated", "location: " + location); //log
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) { //update UI here if error occurred.
+
+            }
+        });
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        mSearchedSourceReference = FirebaseDatabase
-                .getInstance()
-        .getReference()
-                .child(Constants.FIREBASE_CHILD_SEARCHED_SOURCE);
+
+        mSavedNewsButton.setOnClickListener(this);
+
         auth = FirebaseAuth.getInstance();
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -63,8 +89,8 @@ private DatabaseReference mSearchedSourceReference;
 
 
 
-//        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-//        mEditor = mSharedPreferences.edit();
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mEditor = mSharedPreferences.edit();
 
         mExploreNewsButton.setOnClickListener(this);
     }
@@ -73,17 +99,23 @@ private DatabaseReference mSearchedSourceReference;
                 if (view == mExploreNewsButton){
                 String source = mCountryEditText.getText().toString();
                 saveLocationToFirebase(source);
-//                if (!(source).equals("")){
-//                    addToSharedPreferences(source);
-//                }
+                if (!(source).equals("")){
+                    addToSharedPreferences(source);
+                }
                 Intent intent = new Intent(MainActivity.this, NewsListActivity.class);
                 intent.putExtra("source", source);
                 startActivity(intent);
 //                Toast.makeText(MainActivity.this, source, Toast.LENGTH_SHORT).show();
             }
 
+                if (view ==mSavedNewsButton) {
+                    Intent intent = new Intent(MainActivity.this, SavedNewsListActivity.class);
+                    startActivity(intent);
+                }
+
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
@@ -127,7 +159,13 @@ private DatabaseReference mSearchedSourceReference;
         }
     }
 
-//    private void addToSharedPreferences(String source) {
-//        mEditor.putString(Constants.PREFERENCES_LOCATION_KEY,source).apply();
-//    }
+    private void addToSharedPreferences(String source) {
+        mEditor.putString(Constants.PREFERENCES_SOURCE_KEY,source).apply();
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        mSearchedSourceReference.removeEventListener(mSearchedSourceReferenceListener);
+    }
     }
