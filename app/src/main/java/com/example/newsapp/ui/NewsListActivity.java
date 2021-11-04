@@ -125,11 +125,6 @@ public class NewsListActivity extends AppCompatActivity {
             }
 
 
-            private void addToSharedPreferences(String location) {
-                mEditor.putString(Constants.PREFERENCES_SOURCE_KEY, source).apply();
-            }
-
-
             ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.DOWN | ItemTouchHelper.UP | ItemTouchHelper.START | ItemTouchHelper.END, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
                 @Override
                 public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {

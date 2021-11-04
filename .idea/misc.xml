@@ -4,12 +4,19 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.22135416666666666" />
+        <entry key="app/src/main/res/layout-land/activity_account.xml" value="0.2381786339754816" />
+        <entry key="app/src/main/res/layout-land/activity_login.xml" value="0.2381786339754816" />
+        <entry key="app/src/main/res/layout-land/activity_main.xml" value="0.2381786339754816" />
+        <entry key="app/src/main/res/layout-land/activity_news.xml" value="0.2381786339754816" />
+        <entry key="app/src/main/res/layout-land/fragment_new_detail.xml" value="0.2381786339754816" />
+        <entry key="app/src/main/res/layout-land/news_list_item.xml" value="0.2381786339754816" />
         <entry key="app/src/main/res/layout/activity_account.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_bbc.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_new_detail.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_news.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_newshighlights.xml" value="0.2833333333333333" />
         <entry key="app/src/main/res/layout/activity_restaurant_detail.xml" value="0.1503531786074672" />
         <entry key="app/src/main/res/layout/activity_sportsnews.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_new_detail.xml" value="0.33" />
