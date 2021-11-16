@@ -1,39 +1,27 @@
-##Project Name
-
+  
+# Project Name
 News App
-
-
-##Date of development
-
-10/10/2021
-
-
-##Author 
-
-Chepkemoi Rop
-
-
-##Description
-
-This application is a mobile app which displays news of different countries and it shows the channels one can get the news from.It displays the top headlines news.As we go on we shall be able to get all the news.
-
-
-##Known Bugs
-
-Currently it only has the top headlines and one cannot click on the channel of their station ,the issue can be sorted later.
-
-##packages and installation
-
-Have android studio installed and is running well 
+# Date and Development Team
+10 October 2021
+The System was developed by Chepkemoi Rop
+## Description
+The application is all about showing news headlines and detail news from headline that one wants to explore from different channels.One is able to key in a channel of their preference and they can be able to see the headlines.
+It also allows one to save the headlines news for future reference into the database.
+## Settup and Installation process
+Have android studio installed and is running well
 Jdk version 8 and above
 Gradle can sync well too
 
-
-##Contacts and links
-
 You can clone it from my github :https://github.com/judyrop/Android_ip
+## Known bugs
+For known bugs ,other saved headlines might not display to the user interface but is saved at the backend but working on it.
+## Support and Contact Details
+Phone number: 0722887764
+Email:judyrop97@gmail.com
+## Technologies Used
+JAVA
+FIREBASE 
 
-
-##Licenses and Copyright
-
-MIT   
+## License
+This  application is licensed under MIT License.
+Copyright (c) 2021
